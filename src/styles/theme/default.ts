@@ -2,7 +2,7 @@ export const Theme = {
   colors: {
     background:{
       'main': "#131112",
-      'light':"#171717"
+      'light':"#151515"
     },
     primary: {
       800: "#9D174D",

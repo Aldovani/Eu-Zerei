@@ -1,28 +1,23 @@
 import React, { useRef, useState } from "react";
 
-import {
-  Container,
-  Navigation,
-  InputSearch,
-  ButtonLink,
-  ContainerSearch,
-  ContainerMenu,
-} from "./styles";
+import { Container, InputSearch, ContainerSearch } from "./styles";
+
 import Logo from "@/assets/images/logo.svg";
 import Image from "next/image";
 import Link from "next/link";
-import { HamburgerButton, Search } from "@icon-park/react";
-import { useRouter } from "next/router";
-import { ActiveLink } from "../ActiveLink";
+
+import { FiSearch } from "react-icons/fi";
+import Navigation from "./Navigation";
+import NavigationMobile from "./NavigationMobile";
 
 const Header = () => {
-  const Router = useRouter();
   const [isOpenInputSearch, setIsOpenInputSearch] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
   function handleToggleInput() {
     if (!isOpenInputSearch) {
-      setIsOpenInputSearch((prevState) => !prevState);
+      // setIsOpenInputSearch((prevState) => !prevState);
+      setIsOpenInputSearch(true);
 
       if (inputRef.current) {
         inputRef.current.focus();
@@ -39,57 +34,26 @@ const Header = () => {
   return (
     <Container>
       <Link href="/">
-        <Image src={Logo} alt="Logo " />
+        <Image src={Logo} alt="Logo" width={40} height={30} />
       </Link>
 
-      <Navigation>
-        <ActiveLink activeHref={Router.asPath} href="/">
-          inicio
-        </ActiveLink>
-        <ActiveLink activeHref={Router.asPath} href="/news">
-          Noticias
-        </ActiveLink>
-        <ActiveLink activeHref={Router.asPath} href="/reviews">
-          Reviews
-        </ActiveLink>
-      </Navigation>
+      <Navigation />
 
-{/* 
-      <MenuMobile>
-        <Navigation>
-          <ActiveLink activeHref={Router.asPath} href="/">
-            inicio
-          </ActiveLink>
-          <ActiveLink activeHref={Router.asPath} href="/news">
-            Noticias
-          </ActiveLink>
-          <ActiveLink activeHref={Router.asPath} href="/reviews">
-            Reviews
-          </ActiveLink>
-        </Navigation>
-      </MenuMobile> */}
-
-
-      <ContainerSearch onClick={handleToggleInput} isOpen={isOpenInputSearch}>
+      <ContainerSearch
+        onClick={handleToggleInput}
+        isOpen={isOpenInputSearch}
+        onFocus={handleToggleInput}
+      >
         <InputSearch
           isOpen={isOpenInputSearch}
           placeholder="Busca"
           onBlur={inputBlur}
           ref={inputRef}
         />
-        <Search
-          size={24}
-          className="icon"
-          fill={isOpenInputSearch ? "#ADB5BD" : "#F8F9FA"}
-        />
+        <FiSearch size={24} className="icon" stroke={"#E11D48"} />
       </ContainerSearch>
 
-      <ButtonLink href="/login">Minha conta</ButtonLink>
-
-      <ContainerMenu>
-        <HamburgerButton size={32} fill="#fff" />
-      </ContainerMenu>
-
+      <NavigationMobile />
     </Container>
   );
 };

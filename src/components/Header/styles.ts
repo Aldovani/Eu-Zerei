@@ -1,6 +1,5 @@
-import Link from "next/link";
 import styled, { css } from "styled-components";
-import { setLightness } from "polished";
+import { border, setLightness } from "polished";
 
 interface IContainerSearch {
   isOpen: boolean;
@@ -10,40 +9,24 @@ interface IInputSearch {
 }
 
 export const Container = styled.header`
-  max-width: calc(1312px + 32px);
-  padding: 0 16px;
+  max-width: calc(1216px + 64px);
+  padding: 0 32px;
   width: 100%;
-  margin: 0 auto;
+  margin: 0 auto 164px;
   display: flex;
   align-items: center;
   margin-top: 16px;
-  @media (max-width: 600px) {
+
+  @media (max-width: 700px) {
     justify-content: space-between;
   }
 `;
 
-export const Navigation = styled.nav`
-  display: flex;
-  align-items: center;
-  gap: 4rem;
-
-  margin: 0 auto 0 120px;
-
-  @media (max-width: 700px) {
-    margin: 0 auto;
-  }
-
-  @media (max-width: 600px) {
-    display: none;
-  }
-`;
-
-export const ContainerSearch = styled.div<IContainerSearch>`
+export const ContainerSearch = styled.form<IContainerSearch>`
   display: flex;
   align-items: center;
 
   position: relative;
-  border: 1px solid ${({ theme }) => theme.colors.primary[600]};
 
   padding: 0 14px;
   height: 50px;
@@ -53,33 +36,36 @@ export const ContainerSearch = styled.div<IContainerSearch>`
   border-radius: 8px;
   margin-right: 48px;
   cursor: pointer;
-  overflow-x: hidden;
-  transition: all 0.3s ease;
+  transition: all 0.5s ease;
 
   position: relative;
+  background: ${({ theme }) => setLightness(0.2, theme.colors.primary[600])};
 
-  &:hover {
-    background: ${({ theme }) => setLightness(0.2, theme.colors.primary[600])};
-  }
+  ${({ isOpen, theme }) =>
+    !isOpen &&
+    css`
+      &:hover {
+        filter: brightness(1.2);
+        box-shadow: 0 0 0 5px ${setLightness(0.1, theme.colors.primary[600])};
+      }
+    `}
 
   .icon {
     position: absolute;
     right: 14px;
   }
+  &:focus {
+    box-shadow: 0 0 0 1px
+      ${({ theme }) => setLightness(0.1, theme.colors.primary[600])};
+  }
 
-  ${({ isOpen }) =>
+  ${({ isOpen, theme }) =>
     isOpen &&
     css`
-      background: #221b1d;
-      border-color: transparent;
-      border-bottom-color: red;
-      border-radius: 0px;
+      background: #151515;
       width: 100%;
-
-      &:hover {
-        background: #221b1d;
-      }
     `}
+
   @media(max-width: 700px) {
     display: none;
   }
@@ -90,44 +76,14 @@ export const InputSearch = styled.input<IInputSearch>`
   border: 0;
   outline: 0;
   height: 100%;
-  width: ${({ isOpen }) => (!isOpen ? 0 : 256)};
+  max-width: 256px;
+  transition: opacity ${({ isOpen }) => (!isOpen ? "0.3s" : "1s")} ease;
 
-  font-family: "Open Sans";
-  font-style: normal;
+  opacity: ${({ isOpen }) => (!isOpen ? 0 : 1)};
+  font-family: "Poppins" sans-serif;
   font-weight: 600;
   font-size: 16px;
   line-height: 22px;
 
   color: ${({ theme }) => theme.colors.gray[500]};
-`;
-
-export const ButtonLink = styled(Link)`
-  font-family: "Open Sans";
-  font-style: normal;
-  font-weight: 700;
-  font-size: 16px;
-  line-height: 19px;
-  text-align: center;
-  border-radius: 0.8rem;
-
-  color: ${({ theme }) => theme.colors.gray[100]};
-  padding: 1.6rem 3.2rem;
-  background: ${({ theme }) => theme.colors.primary[600]};
-  transition: transform 0.2s ease;
-
-  &:hover {
-    transform: scale(1.03);
-  }
-
-  @media (max-width: 600px) {
-    display: none;
-  }
-`;
-
-export const ContainerMenu = styled.div`
-  cursor: pointer;
-
-  @media (min-width: 600px) {
-    display: none;
-  }
 `;
